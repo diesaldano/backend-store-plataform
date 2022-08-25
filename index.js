@@ -13,7 +13,7 @@ app.use(express.json())
 const allowDomains = ['http:localhost:8000', 'http:localhost:3000']
 const options = {
   origin: (origin, callback)=> {
-    if(allowDomains.includes(origin)){
+    if(allowDomains.includes(origin || !origin)){
       callback(null, true)
     } else {
       callback(new Errors('no permitido'))
