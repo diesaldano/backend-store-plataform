@@ -8,7 +8,7 @@ const router = express.Router()
 const service = new ProductsService()
 
 router.get('/', 
-  validatorHandler(productSchema, 'params'),
+  validatorHandler(productSchema, 'body'),
   async (req, res, next)=>{
     try {
       const products = await service.find()
@@ -19,7 +19,7 @@ router.get('/',
 })
 
 router.get('/:id',
-  validatorHandler(getProductSchema, params),
+  validatorHandler(getProductSchema, 'params'),
   async (req, res, next)=>{
   try {
     const { id } = await req.params
@@ -31,7 +31,7 @@ router.get('/:id',
 })
 
 router.post('/',
-  validatorHandler(createProductSchema, body),
+  validatorHandler(createProductSchema, 'body'),
   async (req, res, next)=> {
   try {
     const { body } = req;
@@ -43,14 +43,14 @@ router.post('/',
 })
 
 router.patch('/:id',
-  validatorHandler(updateProductSchema, params),
-  validatorHandler(updateProductSchema, body),
+  validatorHandler(updateProductSchema, 'params'),
+  validatorHandler(updateProductSchema, 'body'),
   async (req, res, next)=> {
   try {
     const { id } = req.params
-    const { body } = req
+    const body = req.body
     const patch = await service.update(id, body)
-    res.status(204).json(patch)
+    res.json(patch)
   } catch (error) {
     next(error)
   }

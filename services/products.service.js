@@ -44,6 +44,7 @@ class ProductsService {
   }
 
   async update(id, body){
+    console.log(id, body)
     let index = this.products.findIndex(item => item.id === id)
     if(index === -1 ){ throw boom.notFound('Product not found') }
     const product = this.products[index]
